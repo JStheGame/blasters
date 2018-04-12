@@ -4,15 +4,16 @@ let spaceBall;
 const friends = new Set();
 const powerups = new Set();
 let rumbling = 0;
+let score;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	noSmooth();
 	rectMode(CENTER);
-	bg = new Background(300);
+	bg = new Background(100);
 	paddle = new Paddle();
 	spaceBall = new SpaceBall(30);
-	friends.add(new Friend(30, 50));
+	score = 0;
 }
 
 function update() {
@@ -48,6 +49,12 @@ function draw() {
 	powerups.forEach(powerup => {
 		powerup.draw();
 	})
+
+	push();
+	fill(255);
+	text(Math.floor(score), 50, 50)
+
+	pop();
 
 	rumbling *= 0.9;
 }

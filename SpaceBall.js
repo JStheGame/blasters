@@ -3,7 +3,7 @@ class SpaceBall {
 		this.x = 100;
 		this.y = 100;
 		this.dx = 5;
-		this.dy = -3;
+		this.dy = -5;
 		this.size = size;
 	}
 
@@ -27,7 +27,7 @@ class SpaceBall {
 		}
 
 		if(this.y - this.size / 2 > windowHeight) {
-			console.log("you died good job");
+			alert("you died good job");
 			noLoop();
 		}
 
@@ -35,12 +35,18 @@ class SpaceBall {
 					paddle.y - paddle.height / 2, 
 					paddle.width, paddle.height,
 					this.x, this.y, this.size, this.size)) {
-			this.dy = -Math.abs(this.dy) + paddle.dy;
-			this.dx += paddle.dx;
-			rumbling = 1;
+			const yVelocity = this.dy;
+			const xVelocity = this.dx;
+
+			//gain some momentum from the paddle
+			this.dy = -Math.abs(this.dy) + paddle.dy / 2;
+			this.dx += paddle.dx / 2;
+
+			//recoil the paddle a bit
+			paddle.dy += yVelocity / 2;
+			paddle.dx += xVelocity / 2;
+			rumbling = Math.sqrt(this.dx ** 2 + this.dy ** 2) / 10;
 		}
-
-
 	}
 
 	draw() {

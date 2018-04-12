@@ -24,6 +24,28 @@ class Friend {
 				powerups.add(new Powerup(this.x, this.y));
 			}
 			friends.delete(this);
+
+			//get points
+			score += 100 + (100 - this.width) + (100 - this.height);
+
+			//bounce the spaceBall
+			const line1 = this.height * (spaceBall.x - this.x) 
+				+ this.width * (this.y - spaceBall.y);
+			const line2 = -this.height * (spaceBall.x - this.x) 
+				+ this.width * (this.y - spaceBall.y);
+			const zone = line1 * line2;
+
+			if(zone >= 0) spaceBall.dy *= -1;
+			if(zone <= 0) spaceBall.dx *= -1;
+		}
+
+		if(collideRectRect(this.x - this.width / 2, this.y - this.height / 2,
+			this.width, this.height,
+			paddle.x - paddle.width / 2, paddle.y - paddle.height / 2,
+			paddle.width, paddle.height)) {
+			//ur dead
+			alert("you died good job");
+			noLoop();
 		}
 
 		if(this.y - this.height / 2 > windowHeight) {
@@ -35,11 +57,8 @@ class Friend {
 		push();
 		stroke(this.r, this.g, this.b);
 		strokeWeight(8);
-		if(this.powerup) {
-			fill(255);
-		} else {
-			noFill();
-		}
+		if(this.powerup) fill(255);
+		else noFill();
 		
 		rect(this.x, this.y, this.width, this.height, 15);
 		pop();
@@ -47,38 +66,3 @@ class Friend {
 }
 
 
-class Powerup {
-	constructor(x, y) {
-		this.type = "speedUp";
-		this.x = x;
-		this.y = y;
-		this.size = 30;
-	}
-
-	update() {
-		this.y += 1;
-
-		//if eaten, or if off screen, delete
-		if(collideRectCircle(paddle.x - paddle.width / 2, 
-					paddle.y - paddle.height / 2, 
-					paddle.width, paddle.height,
-					this.x, this.y, this.size, this.size)) {
-			powerups.delete(this);
-			paddle.speedUp(0.5);
-		}
-
-
-		if(this.y - 30 > windowHeight) {
-			powerups.delete(this);
-		}
-	}
-
-	draw() {
-		push();
-		noFill();
-		stroke(100 * sin(frameCount) + 155, 120, 120);
-		strokeWeight(8);
-		ellipse(this.x, this.y, this.size);
-		pop();
-	}
-}

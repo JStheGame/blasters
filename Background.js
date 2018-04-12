@@ -25,7 +25,7 @@ class Background {
 		//text(this.stars[0].x, 50, 50)
 
 		this.stars.forEach(star => {
-			const size = 3 * star.z ** 2 + 2;
+			const size = 5 * star.z ** 2 + 2;
 			ellipse(star.x, star.y, size, size);
 		})
 		pop();
