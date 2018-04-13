@@ -13,7 +13,12 @@ class Paddle {
 		this.speed += howMuch;
 	}
 
+	embiggen(howMuch) {
+		this.width += howMuch;
+	}
+
 	update() {
+		// listen for keyboard inputs, speed up in the direction of input
 		if(keyIsDown(LEFT_ARROW)) {
 			this.dx -= this.speed;
 		}
@@ -30,13 +35,17 @@ class Paddle {
 			this.dy += this.speed;
 		}
 
+		// update the paddle position
 		this.x += this.dx;
 		this.y += this.dy;
 
+		// make sure the paddle doesn't go off screen
 		this.x = constrain(this.x, this.width / 2, windowWidth - this.width / 2);
 		this.y = constrain(this.y, this.height / 2, windowHeight - this.height / 2);
-		this.dx *= 0.8;
-		this.dy *= 0.8;
+		
+		// decay the velocity (friction)
+		this.dx *= 0.85;
+		this.dy *= 0.85;
 	}	
 
 	draw() {

@@ -8,9 +8,10 @@ class Background {
 	}
 
 	update() {
-		this.stars.forEach(star => {
+		// move all the stars downward, with speed based on z-component
+		this.stars.map(star => {
 			star.y += 5 * star.z + 2;
-			if(star.y > windowHeight) {
+			if(star.y - 20 > windowHeight) {
 				//respawn the star
 				star.x = random(0, windowWidth);
 				star.y = -20;
@@ -22,10 +23,9 @@ class Background {
 		push();
 		fill(255);
 		noStroke();
-		//text(this.stars[0].x, 50, 50)
 
-		this.stars.forEach(star => {
-			const size = 5 * star.z ** 2 + 2;
+		this.stars.map(star => {
+			const size = 4 * star.z ** 2 + 2;
 			ellipse(star.x, star.y, size, size);
 		})
 		pop();
