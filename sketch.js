@@ -4,10 +4,28 @@ let paddle;
 let spaceBall;
 const friends = new Set();
 const powerups = new Set();
+const splosions = new Set();
 
 // gameplay variables
 let rumbling = 0;
 let score;
+const keys = {};
+
+function increaseScore(howMuch) {
+	score += howMuch;
+}
+
+window.addEventListener("keydown", ({which}) => {
+	keys[which] = 1;
+
+	if(which === 90) {
+		paddle.dash();
+	}
+})
+
+window.addEventListener("keyup", ({which}) => {
+	keys[which] = 0;
+})
 
 // runs once, when the page is ready
 function setup() {
@@ -34,10 +52,13 @@ function update() {
 	spaceBall.update();
 	friends.forEach(friend => {
 		friend.update();
-	})
+	});
 	powerups.forEach(powerup => {
 		powerup.update();
-	})
+	});
+	splosions.forEach(splosion => {
+		splosion.update();
+	});
 }
 
 // this function fires every frame
@@ -63,6 +84,9 @@ function draw() {
 	powerups.forEach(powerup => {
 		powerup.draw();
 	})
+	splosions.forEach(splosion => {
+		splosion.draw();
+	});
 
 	// display the score
 	push();

@@ -5,8 +5,9 @@ class Paddle {
 		this.dx = 0;
 		this.dy = 0;
 		this.speed = 1;
+		this.dashSpeed = 30;
 		this.width = 200;
-		this.height = 30;
+		this.height = 25;
 	}
 
 	speedUp(howMuch) {
@@ -17,23 +18,19 @@ class Paddle {
 		this.width += howMuch;
 	}
 
+	dash() {
+		if(keys[37]) this.dx -= this.dashSpeed;
+		if(keys[38]) this.dy -= this.dashSpeed;
+		if(keys[39]) this.dx += this.dashSpeed;
+		if(keys[40]) this.dy += this.dashSpeed;
+	}
+
 	update() {
 		// listen for keyboard inputs, speed up in the direction of input
-		if(keyIsDown(LEFT_ARROW)) {
-			this.dx -= this.speed;
-		}
-
-		if(keyIsDown(RIGHT_ARROW)) {
-			this.dx += this.speed;
-		}
-
-		if(keyIsDown(UP_ARROW)) {
-			this.dy -= this.speed;
-		}
-
-		if(keyIsDown(DOWN_ARROW)) {
-			this.dy += this.speed;
-		}
+		if(keys[37]) this.dx -= this.speed;
+		if(keys[38]) this.dy -= this.speed;
+		if(keys[39]) this.dx += this.speed;
+		if(keys[40]) this.dy += this.speed;
 
 		// update the paddle position
 		this.x += this.dx;

@@ -1,3 +1,5 @@
+const maxSpeed = 20;
+
 class SpaceBall {
 	constructor(size) {
 		this.x = 100;
@@ -7,7 +9,15 @@ class SpaceBall {
 		this.size = size;
 	}
 
+	embiggen(howMuch) {
+		this.size += howMuch;
+	}
+
 	update() {
+		//limit the speed
+		if(this.dx > maxSpeed) this.dx = (this.dx - maxSpeed) * 0.5 + maxSpeed;
+		if(this.dy > maxSpeed) this.dy = (this.dy - maxSpeed) * 0.5 + maxSpeed;
+
 		// change position based on velocity
 		this.x += this.dx;
 		this.y += this.dy;

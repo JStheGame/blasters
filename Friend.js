@@ -4,11 +4,12 @@ class Friend {
 		this.y = -height;
 		this.width = width;
 		this.height = height;
-		this.r = random(100, 200) + 55;
-		this.g = random(100, 200) + 55;
-		this.b = random(100, 200) + 55;
+		this.r = Math.floor(random(100, 200) + 55);
+		this.g = Math.floor(random(100, 200) + 55);
+		this.b = Math.floor(random(100, 200) + 55);
+		// add a powerup 10% of the time
 		this.powerup = random(0, 10) > 9;
-		this.speed = 1;
+		this.speed = random(0.5, 1.5);
 	}
 
 	update() {
@@ -23,13 +24,19 @@ class Friend {
 			spaceBall.size, spaceBall.size)) {
 
 			// splode
+			const colour = `rgb(${this.r}, ${this.g}, ${this.b})`;
+			const velocity = Math.sqrt(spaceBall.dx ** 2 + spaceBall.dy ** 2);
+			splosions.add(new Splosion(this.x, this.y, colour, velocity));
+
+			// drop a powerup if you've got one
 			if(this.powerup) {
 				powerups.add(new Powerup(this.x, this.y));
 			}
+
 			friends.delete(this);
 
 			// get points
-			score += 100 + (100 - this.width) + (100 - this.height);
+			increaseScore(100 + (100 - this.width) + (100 - this.height));
 
 			// bounce the spaceBall
 			const line1 = this.height * (spaceBall.x - this.x) 
@@ -51,7 +58,7 @@ class Friend {
 			rumbling += Math.sqrt(spaceBall.dx ** 2 + spaceBall.dy ** 2) / 40;
 		}
 
-		// check fror collision with the paddle
+		// check for collision with the paddle
 		if(collideRectRect(this.x - this.width / 2, this.y - this.height / 2,
 			this.width, this.height,
 			paddle.x - paddle.width / 2, paddle.y - paddle.height / 2,
@@ -62,7 +69,7 @@ class Friend {
 		}
 
 		// despawn the friend if it makes it offscreen
-		if(this.y - this.height / 2 > windowHeight) {
+		if(this.y - this.height > windowHeight) {
 			friends.delete(this);
 		}
 	}
