@@ -14,37 +14,58 @@ class SpaceBall {
 	}
 
 	update() {
-		//limit the speed
+		// limit the speed
 		if(this.dx > maxSpeed) this.dx = (this.dx - maxSpeed) * 0.5 + maxSpeed;
 		if(this.dy > maxSpeed) this.dy = (this.dy - maxSpeed) * 0.5 + maxSpeed;
+
+		// store last frame's position
+		const lastX = this.x;
+		const lastY = this.y;
 
 		// change position based on velocity
 		this.x += this.dx;
 		this.y += this.dy;
 
 		// check for wall bounces
+		// left wall
 		if(this.x - this.size / 2 < 0) {
 			this.x = this.size / 2;
 			this.dx *= -1;
 		}
-
-		if(this.x + this.size / 2 > windowWidth) {
-			this.x = windowWidth - this.size / 2;
+		// right wall
+		if(this.x + this.size / 2 > screenWidth) {
+			this.x = screenWidth - this.size / 2;
 			this.dx *= -1;
 		}
-
+		// top wall (ceiling)
 		if(this.y - this.size / 2 < 0) {
 			this.y = this.size / 2;
 			this.dy *= -1;
 		}
 
 		// game over if the ball goes off the bottom of the screen
-		if(this.y - this.size > windowHeight) {
+		if(this.y - this.size > screenHeight) {
 			alert("you died good job");
 			noLoop();
 		}
 
 		// check for collision with the paddle
+		
+
+		// experimental new idea
+		/*
+		if(paddle.x - paddle.width / 2 <= this.x 
+		   && this.x <= paddle.x + paddle.width / 2
+		   && paddle.y + paddle.height / 2 <= this.y + this.size / 2
+		   && paddle.y + paddle.height / 2 > lastY + this.size / 2) {
+			this.dy = -Math.abs(this.dy);
+			rumbling += Math.sqrt(this.dx ** 2 + this.dy ** 2) / 10;
+		}
+		*/
+			
+
+
+		// old collision style
 		if (collideRectCircle(paddle.x - paddle.width / 2, 
 					paddle.y - paddle.height / 2, 
 					paddle.width, paddle.height,
@@ -101,6 +122,7 @@ class SpaceBall {
 			// rumble the screen a bit
 			rumbling += Math.sqrt(this.dx ** 2 + this.dy ** 2) / 10;
 		}
+		
 	}
 
 	draw() {

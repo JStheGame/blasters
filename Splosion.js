@@ -5,7 +5,7 @@ class Splosion {
 		this.birthTime = frameCount;
 		this.pieces = Array.from({length: 10}, 
 			() => new Piece(x, y, colour, velocity));
-		this.lifeSpan = 100;
+		this.lifeSpan = 30;
 	}
 
 	update() {

@@ -32,7 +32,7 @@ class Powerup {
 		}
 
 		// delete the powerup if it goes offscreen
-		if(this.y - this.size > windowHeight) {
+		if(this.y - this.size > screenHeight) {
 			powerups.delete(this);
 		}
 	}

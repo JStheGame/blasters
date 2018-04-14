@@ -1,6 +1,6 @@
 class Friend {
 	constructor(width, height) {
-		this.x = random(width / 2, windowWidth - width / 2);
+		this.x = random(width / 2, screenWidth - width / 2);
 		this.y = -height;
 		this.width = width;
 		this.height = height;
@@ -69,7 +69,7 @@ class Friend {
 		}
 
 		// despawn the friend if it makes it offscreen
-		if(this.y - this.height > windowHeight) {
+		if(this.y - this.height > screenHeight) {
 			friends.delete(this);
 		}
 	}

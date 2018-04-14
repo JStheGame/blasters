@@ -1,3 +1,7 @@
+// constants
+const screenWidth = 700;
+const screenHeight = 850;
+
 // sprite variables
 let bg;
 let paddle;
@@ -29,7 +33,7 @@ window.addEventListener("keyup", ({which}) => {
 
 // runs once, when the page is ready
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	createCanvas(screenWidth, screenHeight);
 	noSmooth();
 	rectMode(CENTER);
 	bg = new Background(200);

@@ -1,7 +1,7 @@
 class Paddle {
 	constructor() {
-		this.x = windowWidth / 2;
-		this.y = 3 * windowHeight / 4;
+		this.x = screenWidth / 2;
+		this.y = 3 * screenHeight / 4;
 		this.dx = 0;
 		this.dy = 0;
 		this.speed = 1;
@@ -37,8 +37,8 @@ class Paddle {
 		this.y += this.dy;
 
 		// make sure the paddle doesn't go off screen
-		this.x = constrain(this.x, this.width / 2, windowWidth - this.width / 2);
-		this.y = constrain(this.y, this.height / 2, windowHeight - this.height / 2);
+		this.x = constrain(this.x, this.width / 2, screenWidth - this.width / 2);
+		this.y = constrain(this.y, this.height / 2, screenHeight - this.height / 2);
 		
 		// decay the velocity (friction)
 		this.dx *= 0.85;
@@ -47,7 +47,7 @@ class Paddle {
 
 	draw() {
 		push();
-		stroke(200 * (1 - (this.y / windowHeight)) + 55, 
+		stroke(200 * (1 - (this.y / screenHeight)) + 55, 
 			100 * (sin(frameCount / 10) + 1) + 55, 
 			100 * (-sin(frameCount / 3) + 1) + 55);
 		strokeWeight(8);
