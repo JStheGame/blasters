@@ -44,9 +44,8 @@ class SpaceBall {
 		}
 
 		// game over if the ball goes off the bottom of the screen
-		if(this.y - this.size > screenHeight) {
-			alert("you died good job");
-			noLoop();
+		if(this.y - this.size > screenHeight && gameActive) {
+			gameOver();
 		}
 
 		// check for collision with the paddle
@@ -69,7 +68,7 @@ class SpaceBall {
 		if (collideRectCircle(paddle.x - paddle.width / 2, 
 					paddle.y - paddle.height / 2, 
 					paddle.width, paddle.height,
-					this.x, this.y, this.size, this.size)) {
+					this.x, this.y, this.size, this.size) && gameActive) {
 			const yVelocity = this.dy;
 			const xVelocity = this.dx;
 

@@ -62,10 +62,9 @@ class Friend {
 		if(collideRectRect(this.x - this.width / 2, this.y - this.height / 2,
 			this.width, this.height,
 			paddle.x - paddle.width / 2, paddle.y - paddle.height / 2,
-			paddle.width, paddle.height)) {
+			paddle.width, paddle.height) && gameActive) {
 			// ur dead
-			alert("you died good job");
-			noLoop();
+			gameOver();
 		}
 
 		// despawn the friend if it makes it offscreen

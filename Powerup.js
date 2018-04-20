@@ -8,6 +8,8 @@ const effects = {
 };
 
 const types = Object.keys(effects);
+
+// could probably a generator function or closure to get a better randomizer
 const randomType = () => types[Math.floor(types.length * random())];
 
 class Powerup {
@@ -26,7 +28,7 @@ class Powerup {
 		if(collideRectCircle(paddle.x - paddle.width / 2, 
 					paddle.y - paddle.height / 2, 
 					paddle.width, paddle.height,
-					this.x, this.y, this.size, this.size)) {
+					this.x, this.y, this.size, this.size) && gameActive) {
 			powerups.delete(this);
 			effects[this.type]();
 		}
@@ -38,6 +40,7 @@ class Powerup {
 	}
 
 	draw() {
+		// draw the powerup itself
 		push();
 		noFill();
 		stroke(100 * sin(frameCount) + 155, 120, 120);
@@ -45,6 +48,7 @@ class Powerup {
 		ellipse(this.x, this.y, this.size);
 		pop();
 
+		// draw the text (show what type it is)
 		push();
 		noStroke();
 		fill(255);

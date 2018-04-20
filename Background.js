@@ -10,7 +10,7 @@ class Background {
 	update() {
 		// move all the stars downward, with speed based on z-component
 		this.stars.map(star => {
-			star.y += 5 * star.z + 2 + 20 * (sin(frameCount / 2000)) ** 10;
+			star.y += 5 * star.z + 2 + level;
 			if(star.y - 20 > screenHeight) {
 				//respawn the star
 				star.x = random(0, screenWidth);
@@ -26,7 +26,7 @@ class Background {
 
 		this.stars.map(star => {
 			const size = 4 * star.z ** 2 + 2;
-			ellipse(star.x, star.y, size, size * (1 + 10 * (sin(frameCount / 2000) ** 10)));
+			ellipse(star.x, star.y, size, size * level);
 		});
 
 		pop();

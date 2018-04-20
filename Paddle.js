@@ -25,6 +25,15 @@ class Paddle {
 		if(keys[40]) this.dy += this.dashSpeed;
 	}
 
+	getColour() {
+		const [r, g, b] = [
+			200 * (1 - (this.y / screenHeight)) + 55, 
+			100 * (sin(frameCount / 10) + 1) + 55, 
+			100 * (-sin(frameCount / 3) + 1) + 55
+		].map(x => Math.floor(x));
+		return `rgb(${r}, ${g}, ${b})`;
+	}
+
 	update() {
 		// listen for keyboard inputs, speed up in the direction of input
 		if(keys[37]) this.dx -= this.speed;
@@ -46,13 +55,13 @@ class Paddle {
 	}	
 
 	draw() {
-		push();
-		stroke(200 * (1 - (this.y / screenHeight)) + 55, 
-			100 * (sin(frameCount / 10) + 1) + 55, 
-			100 * (-sin(frameCount / 3) + 1) + 55);
-		strokeWeight(8);
-		noFill(60)
-		rect(this.x, this.y, this.width, this.height, 15);
-		pop();
+		if(gameActive) {
+			push();
+			stroke(this.getColour());
+			strokeWeight(8);
+			noFill();
+			rect(this.x, this.y, this.width, this.height, 15);
+			pop();
+		}
 	}
 }
