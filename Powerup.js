@@ -1,10 +1,13 @@
 // list of powerups
 const effects = {
 	"speed\nup": () => paddle.speedUp(0.5),
+	"speed\ndown": () => paddle.speedUp(-0.5),
 	"paddle\nembiggen": () => paddle.embiggen(25),
 	"paddle\nshrink": () => paddle.embiggen(-25),
 	"spaceball\nembiggen": () => spaceBall.embiggen(10),
-	"1000\npoints": () => increaseScore(1000)
+	"spaceball\nfreeze": () => spaceBall.freeze(),
+	"1000\npoints": () => increaseScore(1000),
+	"blaster\nget": () => blasterIncrease(2)
 };
 
 const types = Object.keys(effects);

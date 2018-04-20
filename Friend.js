@@ -54,9 +54,27 @@ class Friend {
 				spaceBall.dy = Math.abs(spaceBall.dy) * Math.sign(deltaY);
 			}
 
+			// give the spaceBall a bit of the friend's velocity
+			spaceBall.dy += this.speed;
+
 			// rumble the screen a bit
 			rumbling += Math.sqrt(spaceBall.dx ** 2 + spaceBall.dy ** 2) / 40;
 		}
+
+		// check for collision with blasters
+		blasters.forEach(blaster => {
+			if(collideRectRect(blaster.x - blaster.width / 2,
+				blaster.y - blaster.height / 2,
+				blaster.width, blaster.height,
+				this.x - this.width / 2, this.y - this.height / 2,
+				this.width, this.height)) {
+				// recoil the friend
+				this.y -= 10;
+
+				// despawn the blaster
+				blasters.delete(blaster);
+			}
+		})
 
 		// check for collision with the paddle
 		if(collideRectRect(this.x - this.width / 2, this.y - this.height / 2,

@@ -1,6 +1,7 @@
 // constants
 const screenWidth = 700;
 const screenHeight = 850;
+const initialBlasterLimit = 0;
 
 // sprite variables
 let bg;
@@ -9,6 +10,7 @@ let spaceBall;
 const friends = new Set();
 const powerups = new Set();
 const splosions = new Set();
+const blasters = new Set();
 
 // gameplay variables
 let rumbling = 0;
@@ -17,6 +19,7 @@ let hiScore;
 let difficulty = 0;
 let level = 1;
 let gameActive = true;
+let blasterLimit = initialBlasterLimit;
 const keys = {};
 
 function increaseScore(howMuch) {
@@ -24,6 +27,10 @@ function increaseScore(howMuch) {
 		score += howMuch;
 		level = Math.floor(score / 1000) + 1;
 	}
+}
+
+function blasterIncrease(howMuch) {
+	blasterLimit += howMuch;
 }
 
 function gameOver() {
@@ -37,6 +44,7 @@ function reset() {
 	// check for hi score
 	if(score > hiScore) {
 		hiScore = score;
+		localStorage.setItem("blasterHiScore", score);
 	}
 
 	// reset all gameplay elements
@@ -45,6 +53,7 @@ function reset() {
 	difficulty = 0;
 	level = 1;
 	gameActive = true;
+	blasterLimit = initialBlasterLimit;
 	for(const code in keys) {
 		keys[code] = 0;
 	}
@@ -56,6 +65,7 @@ function reset() {
 	friends.clear();
 	powerups.clear();
 	splosions.clear();
+	blasters.clear();
 }
 
 window.addEventListener("keydown", ({which}) => {
@@ -64,6 +74,11 @@ window.addEventListener("keydown", ({which}) => {
 	// z key press
 	if(which === 90) {
 		paddle.dash();
+	}
+
+	// x key press
+	if(which === 88) {
+		paddle.blast();
 	}
 
 	// enter key press
@@ -83,7 +98,7 @@ function setup() {
 	rectMode(CENTER);
 
 	// load from localStorage eventually
-	hiScore = 0;
+	hiScore = localStorage.getItem("blasterHiScore");
 	reset();
 }
 
@@ -91,6 +106,7 @@ function setup() {
 // and it updates the position of all the sprites
 function update() {
 	// add 1 friend every second; eventually speed this up as score increases
+	// CLEANUP THIS FORMULA (otherwise game stops at level 12)
 	if(frameCount % (60 - level * 5) === 0) {
 		friends.add(new Friend(random(20, 100), random(20, 100)));
 	}
@@ -107,6 +123,9 @@ function update() {
 	});
 	splosions.forEach(splosion => {
 		splosion.update();
+	});
+	blasters.forEach(blaster => {
+		blaster.update();
 	});
 }
 
@@ -136,6 +155,9 @@ function draw() {
 	splosions.forEach(splosion => {
 		splosion.draw();
 	});
+	blasters.forEach(blaster => {
+		blaster.draw();
+	});
 
 	// display the score
 	push();
@@ -163,14 +185,14 @@ function draw() {
 		push();
 		fill(255);
 		noStroke();
-		textFont("monospace");
+		textFont("Comfortaa");
 		textSize(50);
 		textStyle(BOLD);
 		textAlign(CENTER);
-		text("you died good job", screenWidth / 2, screenHeight / 2 - 30)
+		text("you died good job", screenWidth / 2, screenHeight / 2 - 20)
 		
-		textSize(20);
-		text("press enter", screenWidth / 2, screenHeight / 2 + 30)
+		textSize(20 + 2 * sin(frameCount / 10));
+		text("press start", screenWidth / 2, screenHeight / 2 + 30)
 		
 		if(score > hiScore) {
 			text("hey you did a hi score!!", screenWidth / 2, screenHeight / 2 - 90)

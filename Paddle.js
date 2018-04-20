@@ -11,11 +11,11 @@ class Paddle {
 	}
 
 	speedUp(howMuch) {
-		this.speed += howMuch;
+		this.speed = constrain(this.speed + howMuch, 0.5, 10);
 	}
 
 	embiggen(howMuch) {
-		this.width += howMuch;
+		this.width = constrain(this.width + howMuch, 25, screenWidth);
 	}
 
 	dash() {
@@ -23,6 +23,13 @@ class Paddle {
 		if(keys[38]) this.dy -= this.dashSpeed;
 		if(keys[39]) this.dx += this.dashSpeed;
 		if(keys[40]) this.dy += this.dashSpeed;
+	}
+
+	blast() {
+		if(blasters.size < blasterLimit && gameActive) {
+			blasters.add(new Blaster(paddle.x - 10, paddle.y - paddle.height / 2));
+			blasters.add(new Blaster(paddle.x + 10, paddle.y - paddle.height / 2));
+		}
 	}
 
 	getColour() {

@@ -13,6 +13,11 @@ class SpaceBall {
 		this.size += howMuch;
 	}
 
+	freeze() {
+		this.dx = 0;
+		this.dy = 0;
+	}
+
 	update() {
 		// limit the speed
 		if(this.dx > maxSpeed) this.dx = (this.dx - maxSpeed) * 0.5 + maxSpeed;
