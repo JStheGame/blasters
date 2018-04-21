@@ -1,7 +1,7 @@
 // constants
 const screenWidth = 700;
 const screenHeight = 850;
-const initialBlasterLimit = 0;
+const initialBlasterLimit = 2;
 
 // sprite variables
 let bg;
