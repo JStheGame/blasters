@@ -2,6 +2,7 @@
 const screenWidth = 700;
 const screenHeight = 850;
 const initialBlasterLimit = 2;
+const monoFont = "Roboto Mono";
 
 // sprite variables
 let bg;
@@ -11,6 +12,7 @@ const friends = new Set();
 const powerups = new Set();
 const splosions = new Set();
 const blasters = new Set();
+const messages = new Set();
 
 // gameplay variables
 let rumbling = 0;
@@ -25,7 +27,14 @@ const keys = {};
 function increaseScore(howMuch) {
 	if(gameActive) {
 		score += howMuch;
+
+		// check for levelUp
+		const lastLevel = level;
 		level = Math.floor(score / 1000) + 1;
+		if(level > lastLevel) {
+			// celebrate the levelUp
+			messages.add(new Message("level up!"));
+		}
 	}
 }
 
@@ -91,6 +100,7 @@ window.addEventListener("keyup", ({which}) => {
 	keys[which] = 0;
 })
 
+
 // runs once, when the page is ready
 function setup() {
 	createCanvas(screenWidth, screenHeight);
@@ -127,6 +137,9 @@ function update() {
 	blasters.forEach(blaster => {
 		blaster.update();
 	});
+	messages.forEach(message => {
+		message.update();
+	});
 }
 
 // this function fires every frame
@@ -158,18 +171,24 @@ function draw() {
 	blasters.forEach(blaster => {
 		blaster.draw();
 	});
+	messages.forEach(message => {
+		message.draw();
+	});
 
 	// display the score
 	push();
 	fill(255);
 	textSize(48);
-	textFont('monospace');
+	textFont(monoFont);
 	textStyle(BOLD);
 	text(Math.floor(score), 40, 70);
 	// display the hi score
 	textSize(20);
 	text("hi: " + Math.floor(hiScore), 40, 100);
+	// display the level
+	text("level: " + level, 40, 130);
 	pop();
+
 
 	// flash the game over screen if the game's over
 	if(!gameActive) {
