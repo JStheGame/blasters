@@ -12,7 +12,7 @@ const effects = {
 
 const types = Object.keys(effects);
 
-// could probably a generator function or closure to get a better randomizer
+// could probably use a generator function or closure to get a better randomizer
 const randomType = () => types[Math.floor(types.length * random())];
 
 class Powerup {
@@ -34,6 +34,7 @@ class Powerup {
 					this.x, this.y, this.size, this.size) && gameActive) {
 			powerups.delete(this);
 			effects[this.type]();
+			flashMessage(this.type);
 		}
 
 		// delete the powerup if it goes offscreen

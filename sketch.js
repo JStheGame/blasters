@@ -33,9 +33,13 @@ function increaseScore(howMuch) {
 		level = Math.floor(score / 1000) + 1;
 		if(level > lastLevel) {
 			// celebrate the levelUp
-			messages.add(new Message("level up!"));
+			flashMessage("level up!");
 		}
 	}
+}
+
+function flashMessage(text) {
+	messages.add(new Message(text));
 }
 
 function blasterIncrease(howMuch) {
@@ -75,6 +79,7 @@ function reset() {
 	powerups.clear();
 	splosions.clear();
 	blasters.clear();
+	messages.clear();
 }
 
 window.addEventListener("keydown", ({which}) => {
@@ -157,6 +162,9 @@ function draw() {
 
 	// draw all the sprites
 	bg.draw();
+	messages.forEach(message => {
+		message.draw();
+	});
 	paddle.draw();
 	spaceBall.draw();
 	friends.forEach(friend => {
@@ -170,9 +178,6 @@ function draw() {
 	});
 	blasters.forEach(blaster => {
 		blaster.draw();
-	});
-	messages.forEach(message => {
-		message.draw();
 	});
 
 	// display the score

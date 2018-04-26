@@ -2,9 +2,10 @@ class Message {
 	constructor(text) {
 		this.text = text;
 		this.birthTime = frameCount;
-		this.lifeSpan = 200;
+		this.lifeSpan = 120;
 		this.x = screenWidth / 2;
 		this.y = -100;
+		this.opacity = 0;
 	}
 
 	update() {
@@ -15,7 +16,18 @@ class Message {
 
 		// scroll down the screen
 		const frames = frameCount - this.birthTime;
-		this.y = ((frames - this.lifeSpan / 2) ** 3) / 1000 + screenHeight / 2;
+		this.y = (screenHeight) 
+				 * (frames - this.lifeSpan / 2) ** 3 
+				 / (2 * (this.lifeSpan / 2) ** 3) 
+				 + screenHeight / 2;
+		console.log(this.y);
+
+		// update the opacity
+		// quadratic style
+		this.opacity = -1020 * (frames - this.lifeSpan / 2) ** 2 / this.lifeSpan ** 2 + 255;
+
+		// reciprocal style
+		//this.opacity = 1 / ((frames - this.lifeSpan / 2) ** 2 / 60 + 1 / 256) - 1
 	}
 
 	draw() {
@@ -24,9 +36,8 @@ class Message {
 		textSize(120);
 		textAlign(CENTER, CENTER);
 		textStyle(BOLD);
-		noFill();
-		stroke(255, 255, 255, 155);
-		strokeWeight(0.5);
+		noStroke();
+		fill(255, 255, 255, this.opacity);
 		text(this.text, this.x, this.y)
 		pop();
 	}
