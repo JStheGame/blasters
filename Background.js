@@ -25,8 +25,8 @@ class Background {
 		noStroke();
 
 		this.stars.map(star => {
-			const size = 4 * star.z ** 2 + 2;
-			ellipse(star.x, star.y, size, size * level);
+			const size = 3 * star.z ** 2 + 2;
+			ellipse(star.x, star.y, size, size + (level - 1) ** 2);
 		});
 
 		pop();

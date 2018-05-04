@@ -82,6 +82,17 @@ function reset() {
 	messages.clear();
 }
 
+const pause = (function() {
+	let paused = false;
+
+	return function() {
+		if(paused) loop();
+		else noLoop();
+
+		paused = !paused;
+	}
+})()
+
 window.addEventListener("keydown", ({which}) => {
 	keys[which] = 1;
 
@@ -98,6 +109,11 @@ window.addEventListener("keydown", ({which}) => {
 	// enter key press
 	if(which === 13 && !gameActive) {
 		reset();
+	}
+
+	// pause button (p)
+	if(which === 80) {
+		pause();
 	}
 })
 
@@ -210,16 +226,16 @@ function draw() {
 		fill(255);
 		noStroke();
 		textFont("Comfortaa");
-		textSize(50);
+		textSize(120);
 		textStyle(BOLD);
-		textAlign(CENTER);
-		text("you died good job", screenWidth / 2, screenHeight / 2 - 20)
+		textAlign(CENTER, CENTER);
+		text("you died\ngood job", screenWidth / 2, screenHeight / 2)
 		
 		textSize(20 + 2 * sin(frameCount / 10));
-		text("press start", screenWidth / 2, screenHeight / 2 + 30)
+		text("press start", screenWidth / 2, screenHeight / 2 + 200)
 		
 		if(score > hiScore) {
-			text("hey you did a hi score!!", screenWidth / 2, screenHeight / 2 - 90)
+			text("hey you did a hi score!!", screenWidth / 2, screenHeight / 2 - 200)
 		}
 		pop();
 	}
